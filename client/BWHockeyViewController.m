@@ -42,7 +42,7 @@
     if ((self = [super initWithStyle:UITableViewStyleGrouped])) {
         self.hockeyController = newHockeyController;
         self.modal = newModal;
-        self.title = NSLocalizedStringFromTable(@"HockeyUpdateScreenTitle", @"Hockey", @"Update Details");
+        self.title = NSLocalizedString(@"HockeyUpdateScreenTitle", @"Update Details");
     }
     return self;    
 }
@@ -85,7 +85,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+	
     if (self.modal) {
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
                                                                                               target:self
@@ -169,9 +169,9 @@
         return nil;
     
     if (section == [self sectionIndexOfSettings])
-        return NSLocalizedStringFromTable(@"HockeySectionCheckHeader", @"Hockey", @"Check For Updates");
+        return NSLocalizedString(@"HockeySectionCheckHeader", @"Check For Updates");
     else if (section == [self sectionIndexOfSettings] - 2) {
-        return NSLocalizedStringFromTable(@"HockeySectionAppHeader", @"Hockey", @"Application");
+        return NSLocalizedString(@"HockeySectionAppHeader", @"Application");
     } else {
         return nil;
     }
@@ -217,12 +217,12 @@
     static NSString *BetaCell3Identifier = @"BetaCell3";
     // check cell
     static NSString *BetaCell4Identifier = @"BetaCell4";
-
+	
     UITableViewCell *cell = nil;
-
+	
     NSString *requiredIdentifier = BetaCell1Identifier;
     NSInteger cellStyle = UITableViewCellStyleSubtitle;
-
+	
     if (self.hockeyController.checkInProgress && 
         indexPath.section == 0 && 
         indexPath.row == 0) {
@@ -234,22 +234,22 @@
         
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textLabel.text = NSLocalizedStringFromTable(@"HockeySectionCheckProgress", @"Hockey", @"Checking...");
+        cell.textLabel.text = NSLocalizedString(@"HockeySectionCheckProgress", @"Checking...");
         cell.textLabel.textAlignment = UITextAlignmentCenter;        
         cell.textLabel.textColor = [UIColor grayColor];
         
         return cell;
     }
-
+	
     int startIndexOfSettings = [self sectionIndexOfSettings];
-
+	
     // preselect the required cell style
     if (indexPath.section == startIndexOfSettings - 2 && indexPath.row == 2) {
         // we need a one line cell with discloure
         requiredIdentifier = BetaCell2Identifier;
         cellStyle = UITableViewCellStyleDefault;
     } else if (indexPath.section == startIndexOfSettings + 1 ||
-        indexPath.section == startIndexOfSettings - 1) {
+			   indexPath.section == startIndexOfSettings - 1) {
         // we need a button style
         requiredIdentifier = BetaCell3Identifier;
         cellStyle = UITableViewCellStyleDefault;
@@ -260,7 +260,7 @@
     }
     
     cell = [tableView dequeueReusableCellWithIdentifier:requiredIdentifier];
-
+	
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:cellStyle reuseIdentifier:requiredIdentifier] autorelease];
     }
@@ -270,7 +270,7 @@
     
     if (indexPath.section == startIndexOfSettings + 1) {
         // check again button
-        cell.textLabel.text = NSLocalizedStringFromTable(@"HockeySectionCheckButton", @"Hockey", @"Check Now");
+        cell.textLabel.text = NSLocalizedString(@"HockeySectionCheckButton", @"Check Now");
         cell.textLabel.textAlignment = UITextAlignmentCenter;
         cell.textLabel.textColor = [UIColor blackColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -280,38 +280,44 @@
         NSNumber *hockeyAutoUpdateSetting = [[NSUserDefaults standardUserDefaults] objectForKey:kHockeyAutoUpdateSetting];        
         if (indexPath.row == 0) {
             // on startup
-            cell.textLabel.text = NSLocalizedStringFromTable(@"HockeySectionCheckStartup", @"Hockey", @"On Startup");
+            cell.textLabel.text = NSLocalizedString(@"HockeySectionCheckStartup", @"On Startup");
             if ([hockeyAutoUpdateSetting intValue] == BETA_UPDATE_CHECK_STARTUP) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
         } else if (indexPath.row == 1) {
             // daily
-            cell.textLabel.text = NSLocalizedStringFromTable(@"HockeySectionCheckDaily", @"Hockey", @"Daily");
+			cell.textLabel.textColor = [UIColor grayColor];
+            cell.textLabel.text = NSLocalizedString(@"HockeySectionCheckDaily", @"Daily");
             if ([hockeyAutoUpdateSetting intValue] == BETA_UPDATE_CHECK_DAILY) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
+				cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
         } else {
             // manually
-            cell.textLabel.text = NSLocalizedStringFromTable(@"HockeySectionCheckManually", @"Hockey", @"Manually");
+			cell.textLabel.textColor = [UIColor grayColor];
+            cell.textLabel.text = NSLocalizedString(@"HockeySectionCheckManually", @"Manually");
             if ([hockeyAutoUpdateSetting intValue] == BETA_UPDATE_CHECK_MANUAL) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
+				cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
     } else if (indexPath.section == startIndexOfSettings - 1) {        
         if ([[self.hockeyController.betaDictionary objectForKey:BETA_UPDATE_VERSION] compare:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]] == NSOrderedSame) {
-            cell.textLabel.text = NSLocalizedStringFromTable(@"HockeySectionAppSameVersionButton", @"Hockey", @"Same Version");
+            cell.textLabel.text = NSLocalizedString(@"HockeySectionAppSameVersionButton", @"Same Version");
             cell.textLabel.textColor = [UIColor grayColor];
             cell.textLabel.textAlignment = UITextAlignmentCenter;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         } else if ([[[UIDevice currentDevice] systemVersion] compare:@"4.0" options:NSNumericSearch] < NSOrderedSame) {
-            cell.textLabel.text = NSLocalizedStringFromTable(@"HockeySectionAppWebsite", @"Hockey", @"Visit the beta website on your Mac or PC to update");
+            cell.textLabel.text = NSLocalizedString(@"HockeySectionAppWebsite", @"Visit the beta website on your Mac or PC to update");
             cell.textLabel.numberOfLines = 3;
             cell.textLabel.textColor = [UIColor grayColor];
             cell.textLabel.textAlignment = UITextAlignmentLeft;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         } else {
             // install application button
-            cell.textLabel.text = NSLocalizedStringFromTable(@"HockeySectionAppButton", @"Hockey", @"Install Update");
+            cell.textLabel.text = NSLocalizedString(@"HockeySectionAppButton", @"Install Update");
             cell.textLabel.textColor = [UIColor blackColor];
             cell.textLabel.textAlignment = UITextAlignmentCenter;
         }
@@ -337,28 +343,28 @@
             } else {
                 versionString = [self.hockeyController.betaDictionary objectForKey:BETA_UPDATE_VERSION];
             }
-
+			
             cell.textLabel.text = [NSString stringWithFormat:@"%@: %@", 
-                                   NSLocalizedStringFromTable(@"HockeySectionAppNewVersion", @"Hockey", @"New Version"), 
+                                   NSLocalizedString(@"HockeySectionAppNewVersion", @"New Version"), 
                                    versionString];
             
             if ([[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] != nil) {
                 currentVersionString = [NSString stringWithFormat:@"%@ (%@)", 
-                                 [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], 
-                                 [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]
-                                 ];
+										[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], 
+										[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]
+										];
             } else {
                 currentVersionString = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
             }
-
+			
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@", 
-                                         NSLocalizedStringFromTable(@"HockeySectionAppCurrentVersion", @"Hockey", @"Current Version"), 
+                                         NSLocalizedString(@"HockeySectionAppCurrentVersion", @"Current Version"), 
                                          currentVersionString];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         } else {
             // release notes
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.textLabel.text = NSLocalizedStringFromTable(@"HockeySectionAppReleaseNotes", @"Hockey", @"Release Notes");
+            cell.textLabel.text = NSLocalizedString(@"HockeySectionAppReleaseNotes", @"Release Notes");
         }
     }
     
@@ -371,7 +377,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
+	
     if (self.hockeyController.checkInProgress) {
         return;
     }
@@ -379,7 +385,7 @@
     int startIndexOfSettings = [self sectionIndexOfSettings];
     
     NSString *url = nil;
-
+	
     if (indexPath.section == startIndexOfSettings + 1) {
         // check again button
         if (!self.hockeyController.checkInProgress) {
@@ -393,10 +399,10 @@
             [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:BETA_UPDATE_CHECK_STARTUP] forKey:kHockeyAutoUpdateSetting];            
         } else if (indexPath.row == 1) {
             // daily
-            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:BETA_UPDATE_CHECK_DAILY] forKey:kHockeyAutoUpdateSetting];            
+            //[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:BETA_UPDATE_CHECK_DAILY] forKey:kHockeyAutoUpdateSetting];            
         } else {
             // manually
-            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:BETA_UPDATE_CHECK_MANUAL] forKey:kHockeyAutoUpdateSetting];            
+           // [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:BETA_UPDATE_CHECK_MANUAL] forKey:kHockeyAutoUpdateSetting];            
         }
         
         // persist the new value
@@ -408,6 +414,8 @@
             NSString *parameter = [NSString stringWithFormat:@"?type=%@&bundleidentifier=%@", BETA_DOWNLOAD_TYPE_APP, [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]];
             NSString *temp = [NSString stringWithFormat:@"%@%@", self.hockeyController.betaCheckUrl, parameter];
             url = [NSString stringWithFormat:@"itms-services://?action=download-manifest&url=%@", [temp URLEncodedString]];
+			
+			NSLog(@"The URL is: %@", url);
         }
     } else if (indexPath.section == startIndexOfSettings - 2 && indexPath.row == 2) {
         // release notes in a webview
@@ -430,7 +438,7 @@
         
         [[self navigationController] pushViewController:controller animated:YES];
     }
-
+	
     if (url != nil && ![[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]])
 	{
 		// there was an error trying to open the URL. for the moment we'll simply ignore it.

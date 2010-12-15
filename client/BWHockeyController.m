@@ -164,7 +164,8 @@
 	}
 }
 
-
+//TODO: Insert a conditional in the framework for later.
+/* 
 - (void) showCheckForBetaAlert {
     UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"HockeyUpdateAvailable", @"Hockey", @"Update available")
                                                          message:NSLocalizedStringFromTable(@"HockeyUpdateAlertText", @"Hockey", @"Would you like to check out the new update? You can do this later on at any time in the In-App settings.")
@@ -174,6 +175,18 @@
                                ] autorelease];
     [alertView show];
 }
+ */
+
+- (void) showCheckForBetaAlert {
+    UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"HockeyUpdateAvailable", @"Update available")
+                                                         message:NSLocalizedString(@"HockeyUpdateAlertText", @"Tap on OK to install the update.")
+                                                        delegate:self
+                                               cancelButtonTitle:nil
+                                               otherButtonTitles:NSLocalizedString(@"HockeyYes", @"Yes"), nil
+                               ] autorelease];
+    [alertView show];
+}
+
 
 
 #pragma mark -
@@ -407,7 +420,7 @@
         if (dataFound) {
             self.betaDictionary = [NSMutableDictionary dictionaryWithCapacity:5];
             
-            NSString *title = NSLocalizedStringFromTable(@"HockeyUnknownApp", @"Hockey", @"Unknown application");
+            NSString *title = NSLocalizedString(@"HockeyUnknownApp", @"Unknown application");
             if ([feed objectForKey:BETA_UPDATE_TITLE] != nil)
                 title = (NSString *)[feed valueForKey:BETA_UPDATE_TITLE];
             [self.betaDictionary setObject:title
