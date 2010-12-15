@@ -79,6 +79,8 @@
     else
 		[self.navigationController popViewControllerAnimated:YES];
 	
+	self.hockeyController.isActive = NO;
+	
 	[[UIApplication sharedApplication] setStatusBarStyle:_statusBarStyle];
 	
 }
@@ -414,8 +416,7 @@
             NSString *parameter = [NSString stringWithFormat:@"?type=%@&bundleidentifier=%@", BETA_DOWNLOAD_TYPE_APP, [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]];
             NSString *temp = [NSString stringWithFormat:@"%@%@", self.hockeyController.betaCheckUrl, parameter];
             url = [NSString stringWithFormat:@"itms-services://?action=download-manifest&url=%@", [temp URLEncodedString]];
-			
-			NSLog(@"The URL is: %@", url);
+			self.hockeyController.isActive = YES;
         }
     } else if (indexPath.section == startIndexOfSettings - 2 && indexPath.row == 2) {
         // release notes in a webview

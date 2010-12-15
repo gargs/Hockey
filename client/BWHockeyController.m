@@ -40,6 +40,7 @@
 @synthesize betaDictionary;
 @synthesize urlConnection;
 @synthesize checkInProgress;
+@synthesize isActive;
 
 + (BWHockeyController *)sharedHockeyController {
 	static BWHockeyController *hockeyController = nil;
@@ -193,7 +194,10 @@
 #pragma mark RequestComments
 
 - (void) checkForBetaUpdate {
-    [self checkForBetaUpdate:nil];
+	if (isActive == NO) {
+		[self checkForBetaUpdate:nil];
+		isActive = YES;
+	}
 }
 
 - (void) checkForBetaUpdate:(BWHockeyViewController *)hockeyViewController {

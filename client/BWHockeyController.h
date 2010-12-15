@@ -45,6 +45,8 @@ typedef enum {
     
     BOOL checkInProgress;
     BOOL dataFound;
+	
+	BOOL isActive;
     
     NSURLConnection *urlConnection;
 }
@@ -56,6 +58,7 @@ typedef enum {
 @property (nonatomic, retain) NSURLConnection *urlConnection;
 
 @property (readonly) BOOL checkInProgress;
+@property (assign) BOOL isActive;
 
 + (BWHockeyController *)sharedHockeyController;
 
