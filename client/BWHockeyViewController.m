@@ -102,6 +102,7 @@
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
+    [self.hockeyController unsetHockeyViewController];
 	[super viewWillDisappear:animated];
 	[[UIApplication sharedApplication] setStatusBarStyle:_statusBarStyle];
 }
